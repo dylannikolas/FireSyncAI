@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=65"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "firesync-ai"
+version = "0.3.0"
+description = "Traceable exploratory MODIS-VIIRS thermal activity calendar"
+requires-python = ">=3.11"
+dynamic = ["dependencies"]
+
+[project.scripts]
+firesync-import = "firesync.history:main"
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools.packages.find]
+include = ["firesync*"]
+

@@ -1,0 +1,7 @@
+# Optional video toolchain; does not change the application's runtime dependencies.
+Pillow>=10,<13
+numpy>=1.26,<3
+opencv-python>=4.8,<5
+requests>=2.31,<3
+websocket-client>=0.56,<2
+# Optional alternative encoder: imageio-ffmpeg>=0.5,<1
