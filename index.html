@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08121d">
+  <meta name="description" content="FireSync AI: demostración exploratoria de actividad térmica MODIS–VIIRS en la Amazonía peruana. Video, resultados observados y límites científicos.">
+  <title>FireSync AI · Observación térmica desde el espacio</title>
+  <style>
+    :root { color-scheme: dark; --bg:#08121d; --panel:#101f2c; --line:#29404e; --text:#eff5f6; --muted:#acbdc8; --accent:#ff994d; --cyan:#83d9d0; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.6; }
+    a { color:inherit; text-underline-offset:5px; }
+    a:focus-visible, video:focus-visible { outline:3px solid var(--accent); outline-offset:6px; }
+    .wrap { width:min(1160px, calc(100% - 48px)); margin-inline:auto; }
+    header { border-bottom:1px solid var(--line); }
+    nav { min-height:86px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    .brand { text-decoration:none; font-weight:750; font-size:20px; letter-spacing:-.5px; display:flex; gap:12px; align-items:center; }
+    .mark { width:26px; height:26px; border:1px solid var(--cyan); border-radius:50%; position:relative; }
+    .mark::after { content:""; position:absolute; inset:8px -7px; border:1px solid var(--accent); border-radius:50%; transform:rotate(-35deg); }
+    .nav-link { color:var(--muted); font-size:14px; padding:10px 0; }
+    .hero { position:relative; isolation:isolate; overflow:hidden; padding:76px 0 58px; }
+    .orbit { position:absolute; z-index:-1; width:620px; height:620px; right:-210px; top:-200px; border:1px solid #385761; border-radius:50%; opacity:.6; box-shadow:0 0 0 70px #83d9d008,0 0 0 140px #83d9d006; background:radial-gradient(circle at 30% 75%,#31716b38,transparent 65%); }
+    .orbit::after { content:""; position:absolute; left:60px; bottom:84px; width:9px; height:9px; background:var(--accent); border-radius:50%; box-shadow:0 0 24px #ff994d; }
+    .eyebrow { color:var(--cyan); text-transform:uppercase; letter-spacing:2px; font-size:11px; font-weight:700; margin:0 0 24px; }
+    h1 { font-size:clamp(56px,9vw,108px); letter-spacing:-.065em; line-height:1; margin:0 0 24px; font-weight:750; }
+    h1 span { color:var(--accent); }
+    .lead { font-size:clamp(22px,3vw,30px); max-width:720px; line-height:1.35; letter-spacing:-.7px; margin:0 0 20px; }
+    .intro { color:var(--muted); max-width:680px; margin:0 0 30px; }
+    .actions { display:flex; flex-wrap:wrap; gap:12px; }
+    .button { display:inline-flex; align-items:center; justify-content:center; padding:12px 20px; border:1px solid var(--line); border-radius:5px; font-weight:650; text-decoration:none; font-size:14px; min-height:48px; }
+    .button.primary { background:var(--accent); color:#131b22; border-color:var(--accent); }
+    .button:hover { border-color:var(--text); }
+    .section-head { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:18px; }
+    h2 { margin:0; font-size:23px; letter-spacing:-.5px; }
+    .small { font-size:12px; color:var(--muted); }
+    .video-section { padding-bottom:60px; scroll-margin-top:24px; }
+    .player { padding:8px; background:var(--panel); border:1px solid var(--line); border-radius:9px; }
+    video { display:block; width:100%; aspect-ratio:16/9; height:auto; background:#000; border-radius:3px; }
+    .video-note { color:var(--muted); font-size:13px; margin:12px 0 0; }
+    .metrics-section { padding-bottom:56px; }
+    .metrics { display:grid; grid-template-columns:1.3fr 1fr 1fr; margin-top:24px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .metric { padding:28px 24px; border-left:1px solid var(--line); }
+    .metric:first-child { padding-left:0; border:0; }
+    .value { display:block; font-size:clamp(34px,5vw,54px); line-height:1.2; font-weight:650; letter-spacing:-2px; font-variant-numeric:tabular-nums; }
+    .metric:first-child .value { color:var(--accent); }
+    .metric-label { color:var(--muted); font-size:14px; margin-top:8px; display:block; }
+    .context { color:var(--muted); margin:16px 0 0; font-size:14px; }
+    .science { display:grid; grid-template-columns:1fr 1.5fr; gap:40px; background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:32px; margin-bottom:56px; }
+    .science h2 { font-size:21px; }
+    .science p { margin:0 0 16px; color:var(--muted); }
+    .science p:last-child { margin-bottom:0; }
+    .science strong { color:var(--text); font-weight:600; }
+    footer { border-top:1px solid var(--line); padding:26px 0 34px; color:var(--muted); font-size:12px; }
+    footer .wrap { display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+    @media(max-width:600px) {
+      .wrap { width:calc(100% - 32px); }
+      nav { min-height:72px; }
+      .hero { padding:48px 0 40px; }
+      .eyebrow { font-size:10px; letter-spacing:1.3px; }
+      .orbit { right:-450px; }
+      .metrics { grid-template-columns:1fr; }
+      .metric,.metric:first-child { padding:20px 0; border-left:0; }
+      .metric + .metric { border-top:1px solid var(--line); }
+      .science { grid-template-columns:1fr; gap:18px; padding:24px; }
+      .video-section,.metrics-section { padding-bottom:40px; }
+      .section-head .small { width:100%; }
+    }
+    @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="wrap" aria-label="Navegación principal">
+      <a class="brand" href="#inicio"><span class="mark" aria-hidden="true"></span>FireSync AI</a>
+      <a class="nav-link" href="https://github.com/dylannikolas/FireSyncAI">Repositorio ↗</a>
+    </nav>
+  </header>
+  <main id="inicio">
+    <section class="hero" aria-labelledby="title">
+      <div class="orbit" aria-hidden="true"></div>
+      <div class="wrap">
+        <p class="eyebrow">Observación de la Tierra / NASA Space Apps Challenge 2026</p>
+        <h1 id="title">FireSync <span>AI</span></h1>
+        <p class="lead">Dos sensores. Una mirada a la actividad térmica.</p>
+        <p class="intro">MODIS y VIIRS observan la Tierra con distintas resoluciones y horarios. FireSync AI explora sus detecciones en una cuadrícula común, preserva su procedencia y muestra dónde coinciden en espacio y tiempo.</p>
+        <div class="actions">
+          <a class="button primary" href="#demo">Ver demostración <span aria-hidden="true">&nbsp;▶</span></a>
+          <a class="button" href="https://github.com/dylannikolas/FireSyncAI">Explorar el proyecto ↗</a>
+        </div>
+      </div>
+    </section>
+    <section class="video-section wrap" id="demo" aria-labelledby="demo-title">
+      <div class="section-head"><h2 id="demo-title">El proyecto en acción</h2><span class="small">DEMO / 29 s / 1080p</span></div>
+      <div class="player">
+        <video controls playsinline preload="metadata" aria-label="Demostración de FireSync AI: mapas, calendario y comparación MODIS–VIIRS" aria-describedby="video-note">
+          <source src="videos/FireSyncAI_demo_30s.mp4" type="video/mp4">
+          Tu navegador no admite video HTML5. <a href="videos/FireSyncAI_demo_30s.mp4">Abrir el video MP4</a>.
+        </video>
+      </div>
+      <p class="video-note" id="video-note">Pulsa reproducir para ver el video aquí mismo. Sin audio; incluye subtítulos en inglés integrados en la imagen. <a href="https://github.com/dylannikolas/FireSyncAI/blob/main/REAL_DATA_VALIDATION.md">Consultar resultados y metodología</a>.</p>
+    </section>
+    <section class="metrics-section wrap" aria-labelledby="results-title">
+      <p class="eyebrow">Un caso observado, con trazabilidad</p>
+      <h2 id="results-title">Amazonía peruana · agosto de 2024</h2>
+      <div class="metrics">
+        <div class="metric"><span class="value">16,836</span><span class="metric-label">Detecciones térmicas totales</span></div>
+        <div class="metric"><span class="value">2,931</span><span class="metric-label">MODIS · Terra / Aqua</span></div>
+        <div class="metric"><span class="value">13,905</span><span class="metric-label">VIIRS · Suomi NPP</span></div>
+      </div>
+      <p class="context">1–31 de agosto de 2024 · CSV de NASA FIRMS aportados por el usuario · AOI aproximada: oeste −76.5°, sur −12.5°, este −72°, norte −7°.</p>
+    </section>
+    <aside class="science wrap" aria-labelledby="limits-title">
+      <div><p class="eyebrow">Lectura responsable</p><h2 id="limits-title">Qué significan estos datos</h2></div>
+      <div>
+        <p>Son <strong>detecciones térmicas, no incendios únicos</strong>. Las diferencias entre sensores y la ausencia de detecciones no demuestran, por sí solas, cambios en la cantidad de incendios.</p>
+        <p>La <strong>calibración científica no está validada</strong>. Este prototipo explora concordancia; no contiene un modelo predictivo de IA ni ofrece alertas operacionales.</p>
+        <p>La aplicación también incluye una demostración con <strong>CSV sintéticos claramente identificados</strong>, separados de estos resultados observados.</p>
+      </div>
+    </aside>
+  </main>
+  <footer><div class="wrap"><span>FireSync AI · Prototipo para NASA Space Apps Challenge 2026</span><a href="https://github.com/dylannikolas/FireSyncAI">Código, documentación y pruebas ↗</a></div></footer>
+</body>
+</html>

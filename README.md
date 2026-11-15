@@ -4,6 +4,12 @@
 
 Prototipo para NASA Space Apps Challenge 2026. Integra CSV de NASA FIRMS, preserva el sensor y sus metadatos, y permite explorar mapas, calendarios y concordancia entre detecciones. **No contiene un modelo predictivo de IA ni una calibración científica validada.** «AI» forma parte del nombre del proyecto, no describe una capacidad predictiva demostrada.
 
+## Demostración web · GitHub Pages
+
+Enlace previsto: **[https://dylannikolas.github.io/FireSyncAI/](https://dylannikolas.github.io/FireSyncAI/)**. Estará disponible después de subir los cambios y habilitar GitHub Pages desde la raíz de la rama `main`; todavía no se ha publicado como parte de esta preparación.
+
+La página estática [index.html](index.html) reproduce directamente [el video MP4](videos/FireSyncAI_demo_30s.mp4) con controles HTML5 y presenta los indicadores observados y sus límites científicos. Se adapta a pantallas móviles. GitHub Pages aloja esta demostración; para usar el dashboard interactivo de Streamlit, sigue las instrucciones de ejecución local de abajo.
+
 ## Demostración comprobada
 
 Amazonía peruana aproximada, **1–31 de agosto de 2024**, AOI W,S,E,N `-76.5,-12.5,-72,-7`.
